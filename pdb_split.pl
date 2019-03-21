@@ -21,24 +21,42 @@ use File::Basename;
 my $ensemblePDBfl = shift @ARGV;
 my $dir           = dirname($ensemblePDBfl);
 
+my $flag = 0;
 my $modelID;
 my $outputFL;
 my $num_models = 0;
 open( INPUT, "<$ensemblePDBfl" ) or die("Cannot open $ensemblePDBfl:$!");
 while (<INPUT>) {
     s/[\n\r]//mg;
-    if (/^MODEL/) {
 
-        #        MODEL        1
+    if (/ENDMDL/){
+        next;
+    }
+
+    if (/^MODEL/) {
+         #MODEL        1
+        $flag = 1;
         ( my $model, $modelID ) = split( /\s+/, $_ );
         $outputFL = "$dir/$modelID.pdb";
         unlink $outputFL if ( -e $outputFL );
+        print("Write to $outputFL ... \n");
         $num_models++;
+        next;
     }
-    open( OUTPUT, ">>$outputFL" ) or die("Cannot open $outputFL:$!");
-    print OUTPUT "$_\n";
-    close OUTPUT;
+
+    if (defined $outputFL){
+
+        open( OUTPUT, ">>$outputFL" ) or die("Cannot open $outputFL:$!");
+        print OUTPUT "$_\n";
+        close OUTPUT;
+    }
 
 }
 close INPUT;
 print "There are totally $num_models models in $ensemblePDBfl\n";
+
+if ($flag ==0){
+    die("The input file is not an ensemble file. There is no MODEL keywords:$!")
+}
+
+
