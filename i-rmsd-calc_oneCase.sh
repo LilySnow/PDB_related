@@ -59,7 +59,7 @@ for decoy_pdb in `ls $decoy_DIR/*pdb`;do
     #cp $decoy_pdb $decoyPDB_tmp
     cd $decoy_DIR
     cp $decoyFL_name $decoyPDB_tmp
-	pdb_xsegchain $decoyFL_name > $decoyPDB_tmp
+	pdb_segxchain.py $decoyFL_name > $decoyPDB_tmp
     cd $currentDIR
     #--
 
