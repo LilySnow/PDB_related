@@ -3,7 +3,9 @@
 # Dec. 2013
 
 use strict;
-use lib '/home/lixue/tools/PDB_related';
+use File::Basename;
+use lib dirname (__FILE__);
+#use lib '/home/lixue/tools/PDB_related';
 use myfun;
 
 if ( scalar @ARGV == 0 ) {
