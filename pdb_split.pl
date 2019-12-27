@@ -19,6 +19,7 @@ use utf8;
 use File::Basename;
 
 my $ensemblePDBfl = shift @ARGV;
+my $flname = basename($ensemblePDBfl, '.pdb');
 my $dir           = dirname($ensemblePDBfl);
 
 my $flag = 0;
@@ -37,7 +38,7 @@ while (<INPUT>) {
          #MODEL        1
         $flag = 1;
         ( my $model, $modelID ) = split( /\s+/, $_ );
-        $outputFL = "$dir/$modelID.pdb";
+        $outputFL = "$dir/$flname.$modelID.pdb";
         unlink $outputFL if ( -e $outputFL );
         print("Write to $outputFL ... \n");
         $num_models++;
