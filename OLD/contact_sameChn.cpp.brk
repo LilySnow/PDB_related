@@ -13,10 +13,10 @@ using namespace std;
 const int max_atomNum = 100000;
 struct Atom{
     float x,y,z;
-    string chnID, resiNum, resiName, atomName, atomNum;
+    string chnID, resiNum, resiName, atomName;
 };
 
-tuple<Atom *, int, unordered_map <string,int>> readPDBFL (string PDBFL, string chnID_target){
+tuple<Atom *, int, unordered_map <string,int>> readPDBFL (string PDBFL){
 
    //    string PDBFL = "3ltj.pdb";
   Atom * atoms = new Atom[max_atomNum];
@@ -26,7 +26,6 @@ tuple<Atom *, int, unordered_map <string,int>> readPDBFL (string PDBFL, string c
   string resiName;
   string chnID;
   string atomName;
-  string atomNum;
   unordered_map <string,int> chnIDs; //a hash table
   string x_tmp, y_tmp, z_tmp;
   double x,y,z;
@@ -50,15 +49,8 @@ tuple<Atom *, int, unordered_map <string,int>> readPDBFL (string PDBFL, string c
         resiName= line.substr(17,3);
         resiNum = line.substr(22, 5); //residue number including the insertion code
         atomName = line.substr(12,4);
-        atomNum = line.substr(6,5);
 
         chnID=line.substr(21,1);
-
-        if (chnID.compare(chnID_target ) !=0 ){
-            // this chain is not the target chain
-            continue;
-        }
-
         chnIDs[chnID]=1;
     //   cout <<chnID<<'\n';
 
@@ -82,7 +74,6 @@ tuple<Atom *, int, unordered_map <string,int>> readPDBFL (string PDBFL, string c
         atom.resiName=resiName;
         atom.resiNum=resiNum;
         atom.atomName = atomName;
-        atom.atomNum = atomNum;
 
         atoms[atom_num]= atom;
         atom_num++;
@@ -101,25 +92,22 @@ pdbFL.close();
 
 int main ( int argc, char *argv [] ) {
 
-    if (argc <4){
-        cout << '\n'<< "USAGE: contact_sameChn pdb_file chainID distance_threshold" << "\n\n";
+    if (argc <3){
+        cout << '\n'<< "USAGE: contact_sameChn pdb_file distance_threshold" << "\n\n";
         exit(0);
 
 
     }
 
     string PDBFL =string(argv[1]); //"3ltj.pdb";
-   string chnID = string(argv[2]); // 'A'
-   double dist_thr = atof(argv[3]);//5;
+   double dist_thr = atof(argv[2]);//5;
 
     Atom * atoms ;
     int atom_num;
     unordered_map <string,int> chnIDs;
-    std::tie(atoms,atom_num, chnIDs)= readPDBFL(PDBFL, chnID);
+    std::tie(atoms,atom_num, chnIDs)= readPDBFL(PDBFL);
     for (int i=0; i<atom_num; i++){
-
         Atom a = *(atoms+i);
-
         for (int j =i+1; j<atom_num;j++){
             Atom b = *(atoms+j);
 
@@ -131,9 +119,9 @@ int main ( int argc, char *argv [] ) {
         double dist = sqrt((a.x-b.x) * (a.x-b.x) + (a.y-b.y) * (a.y-b.y)+ (a.z-b.z)*(a.z-b.z) );
 
         if (dist < dist_thr){
-            cout<< a.resiName <<  "\t" << a.chnID << "\t" << a.resiNum << "\t" << a.atomName << "\t" << a.atomNum << "\t"
-            << b.resiName <<  "\t" << b.chnID << "\t" << b.resiNum << "\t" << b.atomName << "\t" << a.atomNum
-                << "\t" << dist <<'\n';
+            cout<< a.resiName <<  "\t" << a.chnID << "\t" << a.resiNum << "\t" << a.atomName << "\t"
+            << b.resiName <<  "\t" << b.chnID << "\t" << b.resiNum << "\t" << b.atomName
+                << " " << dist <<'\n';
         }
 
 
