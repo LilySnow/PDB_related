@@ -20,6 +20,7 @@
 
 use strict;
 use warnings;
+use warnings::register;
 use utf8;
 use File::Basename;
 
@@ -106,7 +107,7 @@ my $pssmFL = shift @ARGV;
 my $chnID = shift @ARGV;
 
 my $basename =basename ($pdb_FL, '.pdb');
-my $outputFL = "$basename.$chnID.new.pdb";
+my $outputFL = "$basename.$chnID.Bfac.pdb";
 
 #----- read pssms
 my ( $pssm, $Info ) =
@@ -143,7 +144,8 @@ while (<PDB>) {
             }
 
             if ( !defined $Info->{$key} ) {
-                die("$key has no information content in $pssmFL:$!");
+                warnings::warn("Warning: $key has no information content in $pssmFL. -99 is assigned.");
+                $Info->{$key} = -99;
             }
 
             my $n    = 6 - length( $Info->{$key} );
