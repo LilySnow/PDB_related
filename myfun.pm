@@ -302,7 +302,7 @@ sub PDB2seq {
                 if ( !defined $three2one{$aa} ) {
                     # $aa is not an amino acid
                     print(
-"# WARNING: aa $aa does not belong to 20 types of amino acids. It is represented as a DOT. Check this line in $pdbFL:\n # $_\n"
+"# WARNING: aa $aa does not belong to 20 types of amino acids. It is represented as a DOT. Check this line in $pdbFL:\n# $_\n"
                     );
                     $aa='.';
                     $seqAAs->{$chnID}->{$atomResiNum} = $aa;
@@ -322,7 +322,7 @@ sub PDB2seq {
 
             # for NMR pdb, only extract the first model
 
-            print "\nWarning: only the first model is extracted !!\n\n";
+            print "\n# Warning: only the first model is extracted !!\n\n";
             last;
 
         }
@@ -349,7 +349,7 @@ sub PDB2seq {
         foreach my $atomResiNum (@atomResNums_chn) {
             if ( !defined $seqAAs->{$chnID}->{$atomResiNum} ) {
                 print(
-"WARNING: aa not defined for chain $chnID and atomResiNum $atomResiNum. This position may be not an amino acid!\n"
+"# WARNING: aa not defined for chain $chnID and atomResiNum $atomResiNum. This position may be not an amino acid!\n"
                 );
 
                 next;
