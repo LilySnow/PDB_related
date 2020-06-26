@@ -116,7 +116,7 @@ int main(int argc, char *argv[]) {
 
         if (currdissq < cutoffsq){
             std::cout.precision(9);
-            cout << atoms[i].resiName << "\t" << atoms[i].chnID << "\t" << atoms[i].ResNum << "\t" << atoms[i].atomName << "\t" << atoms[j].atomNum ;
+            cout << atoms[i].resiName << "\t" << atoms[i].chnID << "\t" << atoms[i].ResNum << "\t" << atoms[i].atomName << "\t" << atoms[i].atomNum ;
             cout <<  "\t" << atoms[j].resiName << "\t" << atoms[j].chnID << "\t"<< atoms[j].ResNum << "\t"<<  atoms[j].atomName << "\t" << atoms[j].atomNum;
             cout << "\t" << sqrt(currdissq) << endl;
 
