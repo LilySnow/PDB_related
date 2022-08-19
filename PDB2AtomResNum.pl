@@ -43,7 +43,7 @@ if ( defined $chnID_user ) {
 else {
 
     print "#chainID,seqnum,aa,atomResnum\n";
-    foreach my $chnID ( keys %$seqs ) {
+    foreach my $chnID ( sort keys %$seqs ) {
 
         my @atomResNum_chn = @{ $atomResNums->{$chnID} };
         my $sequence       = $seqs->{$chnID};
