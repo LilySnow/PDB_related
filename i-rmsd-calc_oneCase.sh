@@ -18,7 +18,7 @@ outputDIR=$4; #'/home/lixue/test'
 
 if [ -z $outputDIR ];then
     echo
-    echo "Usage: i-rmsd-calc_oneCase refe_pdb izoneFL decoy_DIR output_DIR"
+    echo "Usage: i-rmsd-calc_oneCase.sh refe_pdb izoneFL decoy_DIR output_DIR"
     echo
     exit 1
 fi
@@ -59,7 +59,7 @@ for decoy_pdb in `ls $decoy_DIR/*pdb`;do
     #cp $decoy_pdb $decoyPDB_tmp
     cd $decoy_DIR
     cp $decoyFL_name $decoyPDB_tmp
-	pdb_segxchain.py $decoyFL_name > $decoyPDB_tmp
+	pdb_segxchain $decoyFL_name > $decoyPDB_tmp
     cd $currentDIR
     #--
 
